@@ -7,7 +7,7 @@ import ru.prod.Cloud_service.Entity_models.User;
 import java.util.Optional;
 
 @Repository
-public interface PersonRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 
     Optional<User> findByUsername(String username);
