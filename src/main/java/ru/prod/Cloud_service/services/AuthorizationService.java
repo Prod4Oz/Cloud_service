@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.prod.Cloud_service.Entity_models.Token;
-import ru.prod.Cloud_service.dto.TokenDTO;
 import ru.prod.Cloud_service.dto.UserDTO;
 import ru.prod.Cloud_service.exeptions.AuthorizationException;
 import ru.prod.Cloud_service.exeptions.BadCredentialsException;
@@ -26,7 +25,7 @@ public class AuthorizationService {
     private final Logger logger = LoggerFactory.getLogger(AuthorizationService.class);
 
 
-    public TokenDTO login(UserDTO userDTO) {
+    public String login(UserDTO userDTO) {
         final String login = userDTO.getLogin();
         var user = userRepository.findByUsername(login).orElseThrow(() ->
                 new BadCredentialsException("User with login " + login + " not found"));
@@ -37,17 +36,22 @@ public class AuthorizationService {
         final String authToken = jwtUtil.generateToken(login);
         tokenRepository.save(new Token(authToken));
         logger.info("User " + login + " entered with token " + authToken);
-        return new TokenDTO(authToken);
+        return authToken;
 
     }
 
     public void logout(String authToken) {
-        tokenRepository.deleteById(authToken);
+        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")) {
+            String jwt = authToken.substring(7);
+
+            tokenRepository.deleteById(jwt);
+        } else {
+            tokenRepository.deleteById(authToken);
+        }
     }
 
+
     public void checkToken(String authToken) {
-        if (!tokenRepository.existsById(authToken)) {
-            throw new AuthorizationException();
-        }
+        if (!tokenRepository.existsById(authToken)) throw new AuthorizationException();
     }
 }

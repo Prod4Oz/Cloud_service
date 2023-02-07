@@ -61,6 +61,7 @@ class AuthorizationServiceTest {
     void logout() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertDoesNotThrow(() -> authorizationService.logout(jwtUtil.generateToken(USER)));
+
     }
 
     @Test
