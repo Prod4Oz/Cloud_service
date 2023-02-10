@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AuthorizationServiceTest {
 
-    public static final String BAD_AUTH_TOKEN = "gaarahzfbzfbzaf";
+    public static final String BAD_AUTH_TOKEN = "Bearer gaarahzfbzfbzaf";
     public static final String USER = "user";
     public static final String BAD_USER = "no_user";
     public static final String PASSWORD = "user";

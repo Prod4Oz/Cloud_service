@@ -16,11 +16,12 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String filename;
+    @Lob
+    private byte[] fileContent;
 
     private Long size;
 
-    private String key;
-
+    @Column(nullable = false)
     private LocalDate uploadDate;
 }
