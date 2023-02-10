@@ -1,5 +1,6 @@
 package ru.prod.Cloud_service.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,27 +15,28 @@ import ru.prod.Cloud_service.exeptions.BadCredentialsException;
 import java.io.IOException;
 
 @RestControllerAdvice
+@Slf4j
 public class ControllerExceptionHandler {
-    private final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {BindException.class, BadCredentialsException.class, IOException.class})
     ErrorInResponse handleBindException(Exception e) {
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ErrorInResponse(e.getMessage(), -1);
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthorizationException.class)
     ErrorInResponse handleAuthorizationException(AuthorizationException e) {
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ErrorInResponse(e.getMessage(), -1);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
     ErrorInResponse handleRuntimeException(RuntimeException e) {
-        logger.error(e.getMessage());
+        log.error(e.getMessage());
         return new ErrorInResponse(e.getMessage(), -1);
     }
 }

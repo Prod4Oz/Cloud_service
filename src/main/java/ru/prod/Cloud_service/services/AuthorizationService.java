@@ -1,6 +1,7 @@
 package ru.prod.Cloud_service.services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,13 +17,13 @@ import ru.prod.Cloud_service.utils.JWTUtil;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class AuthorizationService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final JWTUtil jwtUtil;
 
-    private final Logger logger = LoggerFactory.getLogger(AuthorizationService.class);
 
 
     public String login(UserDTO userDTO) {
@@ -35,7 +36,7 @@ public class AuthorizationService {
         }
         final String authToken = jwtUtil.generateToken(login);
         tokenRepository.save(new Token(authToken));
-        logger.info("User " + login + " entered with token " + authToken);
+        log.info("User " + login + " entered with token " + authToken);
         return authToken;
 
     }
