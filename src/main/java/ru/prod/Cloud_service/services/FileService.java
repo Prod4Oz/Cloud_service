@@ -9,6 +9,9 @@ import ru.prod.Cloud_service.Entity_models.File;
 import ru.prod.Cloud_service.repositories.FileRepository;
 import ru.prod.Cloud_service.repositories.UserRepository;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -20,10 +23,19 @@ public class FileService {
     private final AuthorizationService authorizationService;
 
     public boolean addFile(String authToken, String filename, MultipartFile file) {
-        authorizationService.checkToken(authToken);
-        // TODO save vile
 
-        return true;
+        authorizationService.checkToken(authToken.substring(7));
+        // TODO save file
+
+        try {
+            fileRepository.save(new File(filename, file.getBytes(), file.getSize(), LocalDateTime.now()));
+            return true;
+        } catch (IOException e) {
+            log.error("Upload file: Input data exception");
+            throw new RuntimeException("Upload file: Input data exception");
+        }
+
     }
+
 
 }

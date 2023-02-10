@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "file")
 @Data
@@ -13,9 +14,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class File {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private String filename;
     @Lob
     private byte[] fileContent;
@@ -23,5 +21,5 @@ public class File {
     private Long size;
 
     @Column(nullable = false)
-    private LocalDate uploadDate;
+    private LocalDateTime uploadDate;
 }

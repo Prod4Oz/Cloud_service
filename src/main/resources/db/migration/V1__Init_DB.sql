@@ -1,18 +1,20 @@
-create table file(
-    id           bigserial not null,
+create table file
+(
+    filename     varchar(255) not null,
     file_content oid,
-    filename     varchar(255),
     size         bigint,
-    upload_date  date      not null,
-    primary key (id)
+    upload_date  timestamp(6) not null,
+    primary key (filename)
 );
 
-create table tokens(
+create table tokens
+(
     token varchar(255) not null,
     primary key (token)
 );
 
-create table users(
+create table users
+(
     id       bigserial not null,
     password varchar(255),
     username varchar(100),
