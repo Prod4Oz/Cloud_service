@@ -42,17 +42,27 @@ public class AuthorizationService {
     }
 
     public void logout(String authToken) {
-        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")) {
-            String jwt = authToken.substring(7);
-
-            tokenRepository.deleteById(jwt);
-        } else {
-            tokenRepository.deleteById(authToken);
-        }
+//        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")) {
+//            String jwt = authToken.substring(7);
+//
+//            tokenRepository.deleteById(jwt);
+//        } else {
+//            tokenRepository.deleteById(authToken);
+//        }
+        tokenRepository.deleteById(deleteBearer(authToken));
     }
 
 
     public void checkToken(String authToken) {
-        if (!tokenRepository.existsById(authToken)) throw new AuthorizationException();
+        if (!tokenRepository.existsById(deleteBearer(authToken))) throw new AuthorizationException();
+    }
+
+    public String deleteBearer (String authToken) {
+        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")){
+            String jwt = authToken.substring(7);
+            return jwt;
+        }else {
+            return authToken;
+        }
     }
 }

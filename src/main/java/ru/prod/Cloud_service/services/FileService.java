@@ -24,9 +24,7 @@ public class FileService {
 
     public boolean addFile(String authToken, String filename, MultipartFile file) {
 
-        authorizationService.checkToken(authToken.substring(7));
-        // TODO save file
-
+        authorizationService.checkToken(authToken);
         try {
             fileRepository.save(new File(filename, file.getBytes(), file.getSize(), LocalDateTime.now()));
             return true;
