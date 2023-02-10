@@ -25,4 +25,10 @@ public class FileController {
         fileService.addFile(authToken, filename, file);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename) {
+        fileService.deleteFile(authToken, filename);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
 }

@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 import ru.prod.Cloud_service.Entity_models.File;
 @Repository
 public interface FileRepository  extends JpaRepository<File,String> {
+
+    void deleteByFilename(String filename);
 }

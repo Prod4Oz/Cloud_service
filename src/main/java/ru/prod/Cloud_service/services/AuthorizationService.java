@@ -2,8 +2,6 @@ package ru.prod.Cloud_service.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.prod.Cloud_service.Entity_models.Token;
@@ -25,7 +23,6 @@ public class AuthorizationService {
     private final JWTUtil jwtUtil;
 
 
-
     public String login(UserDTO userDTO) {
         final String login = userDTO.getLogin();
         var user = userRepository.findByUsername(login).orElseThrow(() ->
@@ -42,26 +39,22 @@ public class AuthorizationService {
     }
 
     public void logout(String authToken) {
-//        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")) {
-//            String jwt = authToken.substring(7);
-//
-//            tokenRepository.deleteById(jwt);
-//        } else {
-//            tokenRepository.deleteById(authToken);
-//        }
         tokenRepository.deleteById(deleteBearer(authToken));
     }
 
 
     public void checkToken(String authToken) {
-        if (!tokenRepository.existsById(deleteBearer(authToken))) throw new AuthorizationException();
+        if (!tokenRepository.existsById(deleteBearer(authToken))) {
+            log.error("Unauthorized");
+            throw new AuthorizationException();
+        }
+
     }
 
-    public String deleteBearer (String authToken) {
-        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")){
-            String jwt = authToken.substring(7);
-            return jwt;
-        }else {
+    public String deleteBearer(String authToken) {
+        if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")) {
+            return authToken.substring(7);
+            } else {
             return authToken;
         }
     }

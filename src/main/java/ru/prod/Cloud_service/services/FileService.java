@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.prod.Cloud_service.Entity_models.File;
+import ru.prod.Cloud_service.exeptions.AuthorizationException;
 import ru.prod.Cloud_service.repositories.FileRepository;
 import ru.prod.Cloud_service.repositories.UserRepository;
 
@@ -23,8 +24,8 @@ public class FileService {
     private final AuthorizationService authorizationService;
 
     public boolean addFile(String authToken, String filename, MultipartFile file) {
-
         authorizationService.checkToken(authToken);
+
         try {
             fileRepository.save(new File(filename, file.getBytes(), file.getSize(), LocalDateTime.now()));
             return true;
@@ -35,5 +36,9 @@ public class FileService {
 
     }
 
-
+    public void deleteFile(String authToken, String filename) {
+        authorizationService.checkToken(authToken);
+        fileRepository.deleteByFilename(filename);
+        log.error("File {} delete", filename);
+    }
 }
