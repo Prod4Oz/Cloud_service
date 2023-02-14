@@ -9,10 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.prod.Cloud_service.dto.RenameFile;
+
 import ru.prod.Cloud_service.services.FileService;
 
 import java.io.IOException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/file")
@@ -39,8 +40,8 @@ public class FileController {
     @PutMapping
     public ResponseEntity<?> renameFile(@RequestHeader("auth-token") String authToken,
                                         @RequestParam("filename") String filename,
-                                        @RequestBody RenameFile renameFile) {
-        fileService.renameFile(authToken, filename, String.valueOf(renameFile));
+                                        @RequestBody Map<String, String> fileNameRequest) {
+        fileService.renameFile(authToken, filename, fileNameRequest.get("filename"));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

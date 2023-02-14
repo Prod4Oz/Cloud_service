@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.prod.Cloud_service.Entity_models.File;
 import ru.prod.Cloud_service.Entity_models.User;
 import ru.prod.Cloud_service.dto.FileDTO;
-import ru.prod.Cloud_service.dto.RenameFile;
 import ru.prod.Cloud_service.repositories.FileRepository;
 
 import java.io.IOException;
