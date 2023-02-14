@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.prod.Cloud_service.dto.RenameFile;
 import ru.prod.Cloud_service.services.FileService;
 
 import java.io.IOException;
@@ -27,8 +28,17 @@ public class FileController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename) {
+    public ResponseEntity<?> deleteFile(@RequestHeader("auth-token") String authToken,
+                                        @RequestParam("filename") String filename) {
         fileService.deleteFile(authToken, filename);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> renameFile(@RequestHeader("auth-token") String authToken,
+                                        @RequestParam("filename") String filename,
+                                        @RequestBody RenameFile renameFile) {
+        fileService.renameFile(authToken, filename, String.valueOf(renameFile));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
