@@ -6,12 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.prod.Cloud_service.Entity_models.File;
-import ru.prod.Cloud_service.exeptions.AuthorizationException;
+import ru.prod.Cloud_service.Entity_models.User;
+import ru.prod.Cloud_service.dto.FileDTO;
 import ru.prod.Cloud_service.repositories.FileRepository;
-import ru.prod.Cloud_service.repositories.UserRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +22,24 @@ import java.time.LocalDateTime;
 public class FileService {
 
     private final FileRepository fileRepository;
-    private UserRepository userRepository;
+
     private final AuthorizationService authorizationService;
 
+    public List<FileDTO> getAllFiles(String authToken, int limit) {
+        final User user = authorizationService.getUserByAuthToken(authToken);
+        return fileRepository.findAllByUser(user).stream()
+                .map(o -> new FileDTO(o.getFilename(), o.getSize()))
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+
     public boolean addFile(String authToken, String filename, MultipartFile file) {
-        authorizationService.checkToken(authToken);
+        final User user = authorizationService.getUserByAuthToken(authToken);
+
 
         try {
-            fileRepository.save(new File(filename, file.getBytes(), file.getSize(), LocalDateTime.now()));
+            fileRepository.save(new File(filename, file.getBytes(), file.getSize(), LocalDateTime.now(), user));
             return true;
         } catch (IOException e) {
             log.error("Upload file: Input data exception");
@@ -39,6 +51,6 @@ public class FileService {
     public void deleteFile(String authToken, String filename) {
         authorizationService.checkToken(authToken);
         fileRepository.deleteByFilename(filename);
-        log.error("File {} delete", filename);
+        log.info("File {} delete", filename);
     }
 }

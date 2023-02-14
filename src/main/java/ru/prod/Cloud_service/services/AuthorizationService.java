@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.prod.Cloud_service.Entity_models.Token;
+import ru.prod.Cloud_service.Entity_models.User;
 import ru.prod.Cloud_service.dto.UserDTO;
 import ru.prod.Cloud_service.exeptions.AuthorizationException;
 import ru.prod.Cloud_service.exeptions.BadCredentialsException;
@@ -25,7 +26,7 @@ public class AuthorizationService {
 
     public String login(UserDTO userDTO) {
         final String login = userDTO.getLogin();
-        var user = userRepository.findByUsername(login).orElseThrow(() ->
+        final User user = userRepository.findById(login).orElseThrow(() ->
                 new BadCredentialsException("User with login " + login + " not found"));
 
         if (!user.getPassword().equals(userDTO.getPassword())) {
@@ -40,6 +41,12 @@ public class AuthorizationService {
 
     public void logout(String authToken) {
         tokenRepository.deleteById(deleteBearer(authToken));
+        log.info("Token delete");
+    }
+
+    public User getUserByAuthToken (String authToken){
+        String token = deleteBearer(authToken);
+        return userRepository.findByUsername(jwtUtil.validateTokenAndRetrieveClaimUsername(token));
     }
 
 
@@ -58,4 +65,6 @@ public class AuthorizationService {
             return authToken;
         }
     }
+
+
 }

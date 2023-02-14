@@ -22,4 +22,7 @@ public class File {
 
     @Column(nullable = false)
     private LocalDateTime uploadDate;
+
+    @ManyToOne
+    private User user;
 }

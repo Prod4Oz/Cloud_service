@@ -1,2 +1,2 @@
-insert into users ( id, username, password)
-values (1, 'user', 'user');
+insert into users ( username, password)
+values ('user', 'user');

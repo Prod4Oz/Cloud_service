@@ -33,8 +33,8 @@ class AuthorizationServiceTest {
 
     private UserRepository createUserRepositoryMock() {
         final UserRepository userRepository = Mockito.mock(UserRepository.class);
-        when(userRepository.findByUsername(USER)).thenReturn(Optional.of(new User(1L, USER, PASSWORD)));
-        when(userRepository.findByUsername(BAD_USER)).thenReturn(Optional.empty());
+        when(userRepository.findById(USER)).thenReturn(Optional.of(new User(USER, PASSWORD)));
+        when(userRepository.findById(BAD_USER)).thenReturn(Optional.empty());
         return userRepository;
     }
 

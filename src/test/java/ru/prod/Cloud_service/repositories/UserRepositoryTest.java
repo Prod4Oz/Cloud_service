@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTest {
 
-    public static final User user = new User(1L, "user", "user");
+    public static final User user = new User("user", "user");
 
     @Autowired
     private UserRepository userRepository;
@@ -27,7 +27,7 @@ public class UserRepositoryTest {
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
-        userRepository.save(new User(1L,"user","user"));
+        userRepository.save(new User("user","user"));
 
     }
 
