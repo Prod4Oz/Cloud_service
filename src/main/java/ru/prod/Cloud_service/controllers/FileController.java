@@ -3,6 +3,8 @@ package ru.prod.Cloud_service.controllers;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,4 +43,11 @@ public class FileController {
         fileService.renameFile(authToken, filename, String.valueOf(renameFile));
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @GetMapping
+    public ResponseEntity<Resource> downloadFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename) {
+        byte[] file = fileService.downloadFile(authToken, filename);
+        return ResponseEntity.ok().body(new ByteArrayResource(file));
+    }
+
 }

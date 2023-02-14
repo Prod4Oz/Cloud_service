@@ -62,5 +62,13 @@ public class FileService {
         final User user = authorizationService.getUserByAuthToken(authToken);
         fileRepository.editFileNameByUser(user,filename, newFilename);
         log.info("File {} rename on {}", filename, newFilename);
+
+        //todo не работает как надо.
+    }
+
+    public byte[] downloadFile(String authToken, String filename) {
+        authorizationService.checkToken(authToken);
+        final File file = fileRepository.findByFilename(filename);
+        return file.getFileContent();
     }
 }

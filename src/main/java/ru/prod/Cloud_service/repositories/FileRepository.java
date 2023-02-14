@@ -19,4 +19,6 @@ public interface FileRepository  extends JpaRepository<File,String> {
     @Modifying
     @Query("update File f set f.filename = :newName where f.filename = :filename and f.user = :user")
     void editFileNameByUser(@Param("user") User user, @Param("filename") String filename, @Param("newName") String newFilename);
+
+    File findByFilename(String filename);
 }
