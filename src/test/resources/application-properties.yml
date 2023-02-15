@@ -1,0 +1,17 @@
+#Spring Boot
+spring:
+  datasource:
+    own:
+      username: ${CONTAINER.USERNAME}
+      password: ${CONTAINER.PASSWORD}
+      url: ${CONTAINER.URL}
+
+      jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: validate
+
+      flyway:
+        user: ${CONTAINER.USERNAME}
+        password: ${CONTAINER.PASSWORD}
+        url: ${CONTAINER.URL}
