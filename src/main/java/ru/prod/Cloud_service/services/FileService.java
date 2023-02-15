@@ -62,12 +62,15 @@ public class FileService {
         fileRepository.editFileNameByUser(user,filename, newFilename);
         log.info("File {} rename on {}", filename, newFilename);
 
-        //todo не работает как надо.
     }
 
-    public byte[] downloadFile(String authToken, String filename) {
+    public File downloadFile(String authToken, String filename) {
         authorizationService.checkToken(authToken);
         final File file = fileRepository.findByFilename(filename);
-        return file.getFileContent();
+        if (file == null) {
+            log.error("Download file: file is null");
+            throw new NullPointerException("Download file: file is null");
+        }
+        return file;
     }
 }

@@ -9,10 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import ru.prod.Cloud_service.services.FileService;
 
-import java.io.IOException;
+
 import java.util.Map;
 
 @RestController
@@ -47,7 +46,7 @@ public class FileController {
 
     @GetMapping
     public ResponseEntity<Resource> downloadFile(@RequestHeader("auth-token") String authToken, @RequestParam("filename") String filename) {
-        byte[] file = fileService.downloadFile(authToken, filename);
+        byte[] file = fileService.downloadFile(authToken, filename).getFileContent();
         return ResponseEntity.ok().body(new ByteArrayResource(file));
     }
 
