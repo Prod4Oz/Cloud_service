@@ -9,9 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.prod.Cloud_service.Entity_models.User;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTest {
 
-    public static final User user = new User("user", "user", null);
+    public static final User user = new User("user", "user", new ArrayList<>());
 
     @Autowired
     private UserRepository userRepository;
@@ -27,13 +26,12 @@ public class UserRepositoryTest {
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
-        userRepository.save(new User("user","user", null));
+        userRepository.save(user);
 
     }
 
     @Test
     public void findByUsername() {
-        Optional<User> userMock = Optional.of(user);
-        assertEquals(userMock, userRepository.findByUsername("user"));
+        assertEquals(user, userRepository.findByUsername("user"));
     }
 }

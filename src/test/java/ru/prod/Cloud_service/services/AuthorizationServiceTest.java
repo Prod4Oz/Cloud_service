@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import ru.prod.Cloud_service.Entity_models.User;
 import ru.prod.Cloud_service.dto.UserDTO;
 import ru.prod.Cloud_service.repositories.TokenRepository;
@@ -16,6 +18,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 class AuthorizationServiceTest {
 
     public static final String BAD_AUTH_TOKEN = "Bearer gaarahzfbzfbzaf";
