@@ -82,13 +82,8 @@
 			<version>5.9.2</version>
 			<scope>test</scope>
 		</dependency>
-
-
-
-
-
-
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -98,12 +93,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-
-
-
-
-
-
 		</dependencies>
 	</dependencyManagement>
 
