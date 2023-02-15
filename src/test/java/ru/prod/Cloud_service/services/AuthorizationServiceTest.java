@@ -55,39 +55,39 @@ class AuthorizationServiceTest {
 
 
     @Test
-    void login() {
+    public void login() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertDoesNotThrow(() -> authorizationService.login(new UserDTO(USER, PASSWORD)));
     }
 
     @Test
-    void logout() {
+    public void logout() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertDoesNotThrow(() -> authorizationService.logout(jwtUtil.generateToken(USER)));
 
     }
 
     @Test
-    void login_userNotFound() {
+    public void login_userNotFound() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertThrows(RuntimeException.class, () -> authorizationService.login(new UserDTO(BAD_USER, PASSWORD)));
     }
 
 
     @Test
-    void login_incorrectPassword() {
+    public void login_incorrectPassword() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertThrows(RuntimeException.class, () -> authorizationService.login(new UserDTO(USER, BAD_PASSWORD)));
     }
 
     @Test
-    void checkToken() {
+    public void checkToken() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertDoesNotThrow(() -> authorizationService.checkToken(jwtUtil.generateToken(USER)));
     }
 
     @Test
-    void checkToken_failed() {
+    public void checkToken_failed() {
         final AuthorizationService authorizationService = new AuthorizationService(userRepository, tokenRepository, jwtUtil);
         Assertions.assertThrows(RuntimeException.class, () -> authorizationService.checkToken(BAD_AUTH_TOKEN));
     }
