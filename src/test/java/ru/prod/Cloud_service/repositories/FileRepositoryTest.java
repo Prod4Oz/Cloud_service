@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -30,8 +27,8 @@ public class FileRepositoryTest {
     public static final String filename2 = "filename_old";
     public static final String filename3 = "filename_new";
 
-    public static final File file = new File(filename, filename.getBytes(),10L,  LocalDateTime.now(), user);
-    public static final File file2 = new File(filename2, filename.getBytes(),1L,  LocalDateTime.now(), user);
+    public static final File file = new File(filename, filename.getBytes(), 10L, LocalDateTime.now(), user);
+    public static final File file2 = new File(filename2, filename.getBytes(), 1L, LocalDateTime.now(), user);
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -51,11 +48,10 @@ public class FileRepositoryTest {
         fileRepository.save(file2);
         Optional<File> beforeDelete = fileRepository.findById(filename2);
         assertTrue(beforeDelete.isPresent());
-        fileRepository.deleteByFilename( filename2);
+        fileRepository.deleteByFilename(filename2);
         Optional<File> afterDelete = fileRepository.findById(filename2);
         assertFalse(afterDelete.isPresent());
     }
-
 
 
     @Test

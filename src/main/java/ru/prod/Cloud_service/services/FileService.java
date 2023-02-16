@@ -55,11 +55,9 @@ public class FileService {
     }
 
 
-
-
-    public void renameFile (String authToken, String filename, String newFilename){
+    public void renameFile(String authToken, String filename, String newFilename) {
         final User user = authorizationService.getUserByAuthToken(authToken);
-        fileRepository.editFileNameByUser(user,filename, newFilename);
+        fileRepository.editFileNameByUser(user, filename, newFilename);
         log.info("File {} rename on {}", filename, newFilename);
 
     }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.prod.Cloud_service.services.FileService;
 
-
 import java.util.Map;
 
 @RestController

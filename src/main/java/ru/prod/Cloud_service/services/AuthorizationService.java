@@ -44,7 +44,7 @@ public class AuthorizationService {
         log.info("Token delete");
     }
 
-    public User getUserByAuthToken (String authToken){
+    public User getUserByAuthToken(String authToken) {
         String token = deleteBearer(authToken);
         return userRepository.findByUsername(jwtUtil.validateTokenAndRetrieveClaimUsername(token));
     }
@@ -61,7 +61,7 @@ public class AuthorizationService {
     public String deleteBearer(String authToken) {
         if (authToken != null && !authToken.isBlank() && authToken.startsWith("Bearer ")) {
             return authToken.substring(7);
-            } else {
+        } else {
             return authToken;
         }
     }

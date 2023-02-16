@@ -11,9 +11,10 @@ import ru.prod.Cloud_service.Entity_models.User;
 import java.util.List;
 
 @Repository
-public interface FileRepository  extends JpaRepository<File,String> {
+public interface FileRepository extends JpaRepository<File, String> {
 
     void deleteByFilename(String filename);
+
     List<File> findAllByUser(User user);
 
     @Modifying

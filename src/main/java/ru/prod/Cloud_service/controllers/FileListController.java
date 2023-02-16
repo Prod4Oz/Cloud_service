@@ -16,6 +16,6 @@ public class FileListController {
 
     @GetMapping
     public List<FileDTO> getAllFiles(@RequestHeader("auth-token") String authToken, @RequestParam("limit") int limit) {
-        return fileService.getAllFiles(authToken,limit);
+        return fileService.getAllFiles(authToken, limit);
     }
 }

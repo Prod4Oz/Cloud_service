@@ -1,9 +1,7 @@
 package ru.prod.Cloud_service.services;
 
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -33,8 +31,8 @@ public class FileServiceTest {
     public static final User user = new User("user", "user", new ArrayList<>());
     public static final String filename = "filename";
     public static final String filename2 = "filename_old";
-    public static final File file = new File(filename, filename.getBytes(),10L,  LocalDateTime.now(), user);
-    public static final File file2 = new File(filename2, filename2.getBytes(),1L,  LocalDateTime.now(), user);
+    public static final File file = new File(filename, filename.getBytes(), 10L, LocalDateTime.now(), user);
+    public static final File file2 = new File(filename2, filename2.getBytes(), 1L, LocalDateTime.now(), user);
     public static final List<File> FILE_LIST = List.of(file, file2);
 
     public static final FileDTO fileDTO = new FileDTO(filename, 10L);
@@ -42,7 +40,6 @@ public class FileServiceTest {
     public static final List<FileDTO> FILE_DTO = List.of(fileDTO, fileDTO2);
 
     public static final MultipartFile multipart = new MockMultipartFile(filename, filename.getBytes());
-
 
 
     private FileRepository fileRepository = createFileRepositoryMock();
@@ -72,38 +69,36 @@ public class FileServiceTest {
     }
 
 
-
     @Test
     public void getAllFiles() {
-        final FileService fileService = new FileService(fileRepository,authorizationService);
+        final FileService fileService = new FileService(fileRepository, authorizationService);
         assertEquals(FILE_DTO, fileService.getAllFiles(authToken, 10));
     }
 
 
-
     @Test
     public void addFile() {
-        final FileService fileService = new FileService(fileRepository,authorizationService);
+        final FileService fileService = new FileService(fileRepository, authorizationService);
         assertTrue(fileService.addFile(authToken, filename, multipart));
     }
 
     @Test
     public void deleteFile() {
-        final FileService fileService = new FileService(fileRepository,authorizationService);
+        final FileService fileService = new FileService(fileRepository, authorizationService);
         fileService.deleteFile(authToken, filename);
         Mockito.verify(fileRepository, Mockito.times(1)).deleteByFilename(filename);
     }
 
     @Test
     public void renameFile() {
-        final FileService fileService = new FileService(fileRepository,authorizationService);
-        fileService.renameFile(authToken,filename2,filename);
-        Mockito.verify(fileRepository, Mockito.times(1)).editFileNameByUser(user,filename2,filename);
+        final FileService fileService = new FileService(fileRepository, authorizationService);
+        fileService.renameFile(authToken, filename2, filename);
+        Mockito.verify(fileRepository, Mockito.times(1)).editFileNameByUser(user, filename2, filename);
     }
 
     @Test
     public void downloadFile() {
-       final FileService fileService = new FileService(fileRepository,authorizationService);
-        assertEquals(filename, fileService.downloadFile(authToken,filename).getFilename());
+        final FileService fileService = new FileService(fileRepository, authorizationService);
+        assertEquals(filename, fileService.downloadFile(authToken, filename).getFilename());
     }
 }
